@@ -1,0 +1,58 @@
+  
+body {
+  background-color: rgb(116, 116, 173);
+}
+
+h1 {
+  font-size: 3em;
+  font-family: Helvetica;
+  text-align: center;
+  color: white;
+}
+
+h3 {
+  font-size: 1.5em;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  color: white;
+  margin: 24px;
+}
+
+section {
+  background-color: bisque;
+  width: max-content;
+  margin: auto;
+}
+
+section img {
+  width: 300px;
+  margin: 50px;
+}
+
+img:hover {
+  cursor: pointer;
+}
+
+div {
+  background-color: rgb(135, 193, 211);
+  padding: 5px;
+  width: max-content;
+  text-align: center;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  color: white;
+}
+
+div:hover {
+  cursor: pointer;
+}
+
+ul {
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  text-align: center;
+  line-height: 130%;
+  font-size: 20px;
+  padding: 12px;
+}
