@@ -7,9 +7,10 @@ let clicksAllowed = 15;
 let imageLeft = document.querySelector('section img:first-child');
 let imageMiddle = document.querySelector('section img:nth-child(2)');
 let imageRight = document.querySelector('section img:nth-child(3)');
-
 let myContainer = document.querySelector('section');
 let myButton = document.querySelector('div');
+
+// Constructor
 
 function Product(name, fileExtension = 'jpg') {
   this.name = name;
@@ -64,15 +65,6 @@ function renderProducts() {
   helperRenderImages(imageMiddle, indexArray[1]);
   helperRenderImages(imageRight, indexArray[2]);
 
-
-  // image[i].src = allProducts[indexArray[i]].src;
-  // image[i].title = allProducts[indexArray[i]].name;
-  // allProducts[indexArray[i]].views++;
-
-  // imageTwo.src = allProducts[secondProductIndex].src;
-  // imageTwo.title = allProductProduc.name;
-  // allGoats[secondProductIndex].views++;
-
 }
 
 function helperRenderImages(imageSide, indexNumber) {
@@ -80,10 +72,6 @@ function helperRenderImages(imageSide, indexNumber) {
   imageSide.src = allProducts[indexNumber].src;
   imageSide.title = allProducts[indexNumber].name;
   allProducts[indexNumber].views++;
-
-  // imageTwo.src = allProducts[secondProductIndex].src;
-  // imageTwo.title = allProductProduc.name;
-  // allGoats[secondProductIndex].views++;
 
 }
 
@@ -117,15 +105,63 @@ function handleClick(event) {
   }
 }
 
-function handleButtonClick(event) {  //disable-eslint-line
+// function handleButtonClick(event) {  //disable-eslint-line
 
-  if (totalClicks === clicksAllowed) {
-    renderResults();
-  }
-  myButton.removeEventListener('click', handleButtonClick);
-}
+//   if (totalClicks === clicksAllowed) {
+//     renderResults();
+//   }
+//   myButton.removeEventListener
+//   renderProducts.('click', handleButtonClick);
+// }
 
 renderProducts();
+let productNames = [];
+let productViews = [];
+let productClicks = [];
+for (let i = 0; i < allProducts.length; i++) {
+  productNames.push(allProducts[i].name);
+  productViews.push(allProducts[i].views);
+  productClicks.push(allProducts[i].clicks);
+}
+console.log(productNames);
+console.log(productViews);
+console.log(productClicks);
+
+var chartObject = {
+  type: 'bar',
+  data: {
+    // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    labels: productNames,
+    datasets: [{
+      label: '# of Views',
+      data: productViews,
+      backgroundColor:
+        'rgba(255, 99, 132, 0.2)',
+      borderColor:
+        'rgba(255, 99, 132, 1)',
+      borderWidth: 1
+    },
+    {
+      label: '# of Clicks',
+      data: productClicks,
+      backgroundColor:
+        'rgba(75, 192, 192, 0.2)',
+      borderColor:
+        'rgba(75, 192, 192, 1)',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+};
+let ctx = document.getElementById('productChart').getContext('2d');
+let myChart = new Chart(ctx, chartObject);
 
 myContainer.addEventListener('click', handleClick);
-myButton.addEventListener('click', handleButtonClick);
