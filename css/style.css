@@ -1,6 +1,8 @@
   
 body {
   background-color: rgb(116, 116, 173);
+  width: 960px;
+  margin: 0 auto;
 }
 
 h1 {
@@ -20,13 +22,14 @@ h3 {
 
 section {
   background-color: bisque;
-  width: max-content;
+  /* width: max-content; */
+  width: 100%;
   margin: auto;
 }
 
 section img {
-  width: 300px;
-  margin: 50px;
+  width: 250px;
+  margin: 20px;
 }
 
 img:hover {
@@ -58,6 +61,6 @@ ul {
 }
 chart {
   height: 450px;
-  width: 900px;
+  width: 400px;
   margin: auto;
 }
