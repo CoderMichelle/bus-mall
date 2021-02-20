@@ -1,17 +1,17 @@
 'use strict';
 
 // Global Variables
-let previousArray = [];
+let indexArray = [];
 let allProducts = [];
 let totalClicks = 0;
-let clicksAllowed = 15;
-let imageLeft = document.querySelector('section img:first-child');
-let imageMiddle = document.querySelector('section img:nth-child(2)');
-let imageRight = document.querySelector('section img:nth-child(3)');
-let myContainer = document.querySelector('section');
-// let myButton = document.querySelector('div');
+let clicksAllowed = 25;
+let uniqueImageCount = 6;
+let productClicked = 0;
 
-// Constructor
+let firstImage = document.querySelector('section img:first-child');
+let secondImage = document.querySelector('section img:nth-child(2)');
+let thirdImage = document.querySelector('section img:nth-child(3)');
+let myContainer = document.querySelector('section');
 
 function Product(name, fileExtension = 'jpg') {
   this.name = name;
@@ -46,101 +46,69 @@ function getRandomIndex() {
   return Math.floor(Math.random() * allProducts.length);
 }
 
+function imgAssignments(imageElement, imageIndex) {
+  imageElement.src = allProducts[imageIndex].src;
+  imageElement.title = allProducts[imageIndex].name;
+  allProducts[imageIndex].views++;
+}
 function renderProducts() {
-  let indexArray = [];
-  indexArray[0] = getRandomIndex();
-  indexArray[1] = getRandomIndex();
-  indexArray[2] = getRandomIndex();
-
-  while (indexArray[0] === indexArray[1] || indexArray[0] === indexArray[2]) {
-    indexArray[0] = getRandomIndex();
-    while (indexArray[1] === indexArray[2]) {
-      indexArray[1] = getRandomIndex();
-      while (indexArray[2] === indexArray[3] || indexArray[2] === indexArray[4]) {
-        indexArray[2] = getRandomIndex();
-
-      }
+  while (indexArray.length < uniqueImageCount) {
+    let randomIndex = getRandomIndex();
+    while (!indexArray.includes(randomIndex)) {
+      indexArray.push(randomIndex);
     }
   }
+  let firstProductIndex = indexArray.shift();
+  let secondProductIndex = indexArray.shift();
+  let thirdProductIndex = indexArray.shift();
 
-  previousArray = indexArray;
-  console.log(previousArray);
-
-  helperRenderImages(imageLeft, indexArray[0]);
-  helperRenderImages(imageMiddle, indexArray[1]);
-  helperRenderImages(imageRight, indexArray[2]);
-
-}
-
-function helperRenderImages(imageSide, indexNumber) {
-
-  imageSide.src = allProducts[indexNumber].src;
-  imageSide.title = allProducts[indexNumber].name;
-  allProducts[indexNumber].views++;
+  imgAssignments(firstImage, firstProductIndex);
+  imgAssignments(secondImage, secondProductIndex);
+  imgAssignments(thirdImage, thirdProductIndex);
 
 }
-
-// function renderResults() {
-// let myList = document.querySelector('ul');
-// for (let i = 0; i < allProducts.length; i++) {
-//   let li = document.createElement('li');
-//   li.textContent = `${allProducts[i].name} had ${allProducts[i].clicks} votes, and was seen ${allProducts[i].views} times`;
-//   myList.appendChild(li);
-// }
-// }
 
 function handleClick(event) {
   if (event.target === myContainer) {
-    alert('Please click an image and FOLLOW INSTRUCTIONS');
+    alert('Please click an image');
   }
-
   totalClicks++;
-  let ProductClicked = event.target.title;
+  productClicked = event.target.title;
+  console.log(productClicked);
 
   for (let i = 0; i < allProducts.length; i++) {
-    if (ProductClicked === allProducts[i].name) {
+    if (productClicked === allProducts[i].name) {
       allProducts[i].clicks++;
     }
   }
-
   renderProducts();
   if (totalClicks === clicksAllowed) {
     // REMOVE EVENT LISTENER
     myContainer.removeEventListener('click', handleClick);
     renderChart();
     // renderResults();
-
   }
-
-  // call chart function
 }
 
-// function handleButtonClick(event) {  //disable-eslint-line
-
-//   if (totalClicks === clicksAllowed) {
-//     renderResults();
-//   }
-//   myButton.removeEventListener
-//   renderProducts.('click', handleButtonClick);
-// }
-
 renderProducts();
-let productNames = [];
-let productViews = [];
-let productClicks = [];
+if (totalClicks === clicksAllowed) {
+  myContainer.removeEventListener('click', handleClick);
+  let anotherContainer = document.getElementById('container');
+  anotherContainer.style.display = 'block';
+  renderChart();
+}
+renderProducts();
 
 function renderChart() {
-
+  let productNames = [];
+  let productViews = [];
+  let productClicks = [];
 
   for (let i = 0; i < allProducts.length; i++) {
     productNames.push(allProducts[i].name);
     productViews.push(allProducts[i].views);
     productClicks.push(allProducts[i].clicks);
   }
-  console.log(allProducts);
-  console.log(productNames);
-  console.log(productViews);
-  console.log(productClicks);
 
   var chartObject = {
     type: 'bar',
